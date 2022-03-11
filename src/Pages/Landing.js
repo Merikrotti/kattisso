@@ -25,7 +25,7 @@ const Landing = (props) => {
             } else {
                 setUserData("Unauthorized");
                 setLoading(false);
-                cookies.remove("accessToken", { path: '/', sameSite: "strict", domain: props.cookieDomain, expires: new Date("January 1, 2030 01:00:00") });
+                cookies.remove("accessToken", { path: '/', sameSite: "lax", secure: true, domain: props.domainCookie, expires: new Date("January 1, 2030 01:00:00") });
             }
         });
     }

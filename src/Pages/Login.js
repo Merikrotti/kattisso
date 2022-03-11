@@ -62,7 +62,7 @@ const Login = (props) => {
                         .then(function(json) {
                             let data = json.accessToken;
                             props.setAuthenticated(true);
-                            cookies.set('accessToken', data, { path: '/', sameSite: "strict", domain: props.domainCookie, expires: new Date("January 1, 2030 01:00:00") });
+                            cookies.set('accessToken', data, { path: '/', sameSite: "lax", secure: true, domain: props.domainCookie, expires: new Date("January 1, 2030 01:00:00") });
                             if(props.redirect === "")
                                 navigate("/landing");
                             else
