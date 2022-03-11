@@ -1,0 +1,7 @@
+{
+    "sserver": "https://kattiwae.com/api/Auth/",
+    "server": "https://localhost:44320/api/Auth/",
+    ".cookieDomain": ".kattiwae.com",
+    "cookieDomain": ".localhost"
+
+}
