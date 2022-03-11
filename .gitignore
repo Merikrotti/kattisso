@@ -6,7 +6,7 @@
 .pnp.js
 
 #Block config.json
-config.json
+src/config.json
 
 # testing
 /coverage
