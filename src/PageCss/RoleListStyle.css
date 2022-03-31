@@ -1,0 +1,23 @@
+.tablecontainer tr {
+    border: 1px solid white;
+    padding: 3px;
+    border-collapse: collapse;
+}
+.tablecontainer td {
+    border: 1px solid white;
+    padding: 3px;
+    border-collapse: collapse;
+}
+
+.tablecontainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column-reverse;
+    text-align: center;
+    width: 100%;
+}
+
+.tablecontainer th {
+    background-color: darkcyan;
+    border: 1px solid greenyellow;
+}

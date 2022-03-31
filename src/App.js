@@ -1,16 +1,19 @@
+import { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import './App.css';
-import Cookies from "universal-cookie";
+import { AuthContext } from "./Authentication/Authentication";
 
 const App = (props) => {
-  const cookies = new Cookies();
+  const {isAuthenticated} = useContext(AuthContext)
+
   return (
     <div>
       <nav className="header">
-      {props.isAuthenticated ?
+      {isAuthenticated ?
       <header>
 
       <Link to="/landing">kattiwae.com</Link> |{" "}
+      <Link to="/linking">Link services</Link> |{" "}
       <Link to="/privacy">Privacy</Link> |{" "}
       <Link to="/logout">Logout</Link> 
       </header> 

@@ -1,14 +1,14 @@
 import "../App.css";
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { AuthContext } from "../Authentication/Authentication";
 
 const Login = (props) => {
     const [formInfo, setFormInfo] = useState({});
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
-
-    const cookies = new Cookies();
+    const {userLoginPromise} = useContext(AuthContext);
 
     const changeFormInfo = (event) => {
         let newerrors = errors;
@@ -35,7 +35,7 @@ const Login = (props) => {
         setFormInfo(newInfo);
     }
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
         let newErrors = errors;
         if(errors.length > 0) {
@@ -49,36 +49,18 @@ const Login = (props) => {
             return;
         }
 
-        fetch(props.server + "login", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(formInfo)
-        })
+        userLoginPromise(formInfo)
             .then((response) => {
-                if (response.status === 200) {
-                    response.json()
-                        .then(function(json) {
-                            let data = json.accessToken;
-                            props.setAuthenticated(true);
-                            cookies.set('accessToken', data, { path: '/', sameSite: "lax", secure: true, domain: props.domainCookie, expires: new Date("January 1, 2030 01:00:00") });
-                            if(props.redirect === "")
-                                navigate("/landing");
-                            else
-                                props.handleRedirect();
-                        });
-                    
-                }
-                
-                if (response.status === 401) {
-                    newErrors[0] = "Username or password is wrong";
-                }
-                if (response.status === 400) {
-                    newErrors[0] = "Illegal characters or illegal request";
+                if(response[0] === "ok") {
+                    if(props.redirect === "")
+                        navigate("/landing");
+                    else
+                        props.handleRedirect();
+                } else {
+                    newErrors[0] = response;
                 }
                 setErrors([...newErrors]);
-            })
+            });
     }
 
     return (<div className="form">

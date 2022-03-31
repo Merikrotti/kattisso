@@ -5,39 +5,22 @@ import Landing from "./Pages/Landing";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Logout from "./Pages/Logout"
-import React, {useEffect, useState} from 'react';
+import Linking from "./Pages/Linking";
+import React, {useState} from 'react';
 import Privacy from "./Pages/Privacy";
-import Cookies from "universal-cookie";
-import { getUserData } from "./Authentication/UserAuthentication";
 import Redirect from "./Authentication/Redirect";
+import AuthContextProvider from "./Authentication/Authentication"
+import RoleList from "./Pages/RoleList";
+
 
 const config = require("./config.json");
 
 const server = config.server;
 const domainCookie = config.domainCookie;
 
+
 const AppRoutes = (props) => {
     const [redirect, setRedirect] = useState("");
-    const [isAuthenticated, setAuthenticated] = useState(false);
-    
-
-    const isUserAuthenticated = (token) => {
-        getUserData(server, token).then(response => {
-            if(response.status === 200) {
-                setAuthenticated(true);
-            } else {
-                console.log("Not authenticated")
-            }
-        });
-    }
-    useEffect(() => {
-        const cookies = new Cookies();
-        
-        if (cookies.get("accessToken") !== undefined && !isAuthenticated) {
-            let token = cookies.get("accessToken");
-            isUserAuthenticated(token);
-        }
-    }, [isAuthenticated])
 
     const handleRedirect = () => {
         console.log("redirecting");
@@ -45,19 +28,23 @@ const AppRoutes = (props) => {
     }
 
     return (
+        <AuthContextProvider>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App isAuthenticated={isAuthenticated}/>}>
-                    <Route path="/" element={<Index isAuthenticated={isAuthenticated}/>}/>
-                    <Route path="login" element={<Login server={server} setAuthenticated={setAuthenticated} handleRedirect={handleRedirect} redirect={redirect} domainCookie={domainCookie}/>} />
+                <Route path="/" element={<App/>}>
+                    <Route path="/" element={<Index/>}/>
+                    <Route path="login" element={<Login server={server} handleRedirect={handleRedirect} redirect={redirect} domainCookie={domainCookie}/>} />
                     <Route path="register" element={<Register server={server}/>} />
                     <Route path="landing" element={<Landing server={server} domainCookie={domainCookie}/>} />
-                    <Route path="logout" element={<Logout setAuthenticated={setAuthenticated} domainCookie={domainCookie}/>} />
+                    <Route path="logout" element={<Logout domainCookie={domainCookie}/>} />
                     <Route path="privacy" element={<Privacy/>} />
                     <Route path="redirect" element={<Redirect setRedirect={setRedirect}/>} />
+                    <Route path="rolelist" element={<RoleList server={server}/>} />
+                    <Route path="linking" element={<Linking server={server}/>} />
                 </Route>
             </Routes>
         </BrowserRouter>
+        </AuthContextProvider>
     );
 
     

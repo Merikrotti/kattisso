@@ -1,4 +1,3 @@
-
 const Privacy = () => {
     return(<div className="disclaimer">
         <h1>Privacy</h1>
