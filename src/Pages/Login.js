@@ -1,15 +1,20 @@
 import "../App.css";
 import React, {useState, useContext} from 'react';
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { AuthContext } from "../Authentication/Authentication";
 
 const Login = (props) => {
     const [formInfo, setFormInfo] = useState({});
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
-    const {userLoginPromise} = useContext(AuthContext);
+    const {userLoginPromise, isAuthenticated} = useContext(AuthContext);
 
+    if(isAuthenticated) {
+        if(props.redirect === "")
+            navigate("/landing");
+        else
+            props.handleRedirect();
+    }
     const changeFormInfo = (event) => {
         let newerrors = errors;
         newerrors.splice(0);

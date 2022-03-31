@@ -21,7 +21,7 @@ const RoleList = (props) => {
                         })
                 }
             })
-    }, [isAuthenticated])
+    }, [isAuthenticated, setData, props.server])
 
     if(!isAuthenticated) {
         return <Unauthenticated/>

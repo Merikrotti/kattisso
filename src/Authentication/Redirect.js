@@ -8,7 +8,7 @@ const Redirect = (props) => {
     useEffect(() => {
         props.setRedirect(searchParams.get("source"));
         navigate("/login");
-    }, []);
+    }, [navigate, searchParams]);
 
     return (<h1>Creating a redirected login...</h1>)
 }

@@ -54,7 +54,7 @@ const AuthContextProvider = (props) => {
             return "Unknown error";
           }
         })
-      }
+  }
   
   const resetTokens = () => {
     let refreshcookie = cookies.get("refreshToken");
